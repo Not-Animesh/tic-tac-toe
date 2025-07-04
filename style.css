@@ -1,0 +1,215 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* -------- Page background & cursor follower -------- */
+body {
+    background: linear-gradient(to right, #4C1D95, #DB2777);
+    transition: background-color 0.5s ease;
+    display: flex; /* Use flexbox for body to center the game container */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ensure full viewport height */
+    padding: 20px; /* Add overall padding */
+}
+.circle {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: 0.05s linear;         /* smooth chase */
+    z-index: 9999; /* Ensure cursor follower is on top */
+}
+.dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 6px; height: 6px;
+    background: black;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* -------- Game Container (main layout container) -------- */
+.game-container {
+    display: flex; /* Arrange main card and right panel side-by-side */
+    gap: 30px; /* Space between the two main sections */
+    align-items: flex-start; /* Align items to the top */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    justify-content: center; /* Center items when wrapped */
+    max-width: 900px; /* Max width for the entire game area */
+    width: 100%;
+    background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); /* Apply gradient to the whole container */
+    background-size: 400% 400%;
+    animation: gradientTransition 12s ease infinite;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+}
+
+@keyframes gradientTransition {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* -------- Main Tic Tac Toe Card -------- */
+.main-card {
+    flex: 1; /* Allows the main card to grow and shrink */
+    min-width: 300px; /* Minimum width for the game board */
+    max-width: 400px; /* Max width for the game board */
+    color: #f45f5f;
+    padding: 25px; /* Reduced padding as background is now on parent */
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1); /* Slight background for the game board itself */
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Inner shadow */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+/* -------- Heading & turn display -------- */
+.heading {
+    font-size: 2em;
+    margin-bottom: 5px;
+    color: #222;
+    font-weight: 500;
+}
+.turn {
+    margin-bottom: 10px;
+    padding: 10px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2em;
+    transition: opacity 0.3s;
+}
+
+/* -------- Game grid -------- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+}
+.box {
+    aspect-ratio: 1;
+    border-radius: 10px; /* Slightly smaller border-radius for boxes */
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    color: white;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.box:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* -------- Right Panel -------- */
+.right-panel {
+    flex: 1; /* Allows the right panel to grow and shrink */
+    min-width: 250px; /* Minimum width for the right panel */
+    max-width: 350px; /* Max width for the right panel */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between sections in the right panel */
+    background: rgba(0, 0, 0, 0.2); /* Slightly transparent dark background */
+    border-radius: 15px;
+    padding: 20px;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Inner shadow */
+}
+
+.right-panel h2 {
+    font-size: 1.4em;
+    color: #fff;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.panel-section {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* -------- Control Buttons (General Style) -------- */
+.control-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.25s;
+    width: 100%; /* Make buttons full width in their container */
+    font-size: 1em;
+}
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* -------- Scoreboard -------- */
+.score {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    gap: 10px;
+}
+.score-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.1em;
+    color: white;
+}
+
+/* -------- Mobile tweaks -------- */
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: column; /* Stack sections vertically on smaller screens */
+        align-items: center; /* Center stacked sections */
+        gap: 20px; /* Reduce gap when stacked */
+        padding: 20px; /* Adjust container padding */
+    }
+
+    .main-card, .right-panel {
+        width: 100%; /* Take full width when stacked */
+        max-width: 400px; /* Limit max width */
+    }
+
+    .main-card {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .right-panel {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+
+    .heading { font-size: 1.6em; }
+    .turn { font-size: 1em; }
+    .score { font-size: 0.9em; }
+    .right-panel h2 { font-size: 1.2em; }
+    .control-btn { padding: 8px 15px; font-size: 0.9em; }
+}

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            grid-gap: 10px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #333;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+
+        .cell.x {
+            color: #0f0;
+        }
+
+        .cell.o {
+            color: #ff0;
+        }
+
+        .turn {
+            margin-bottom: 20px;
+            background-color: #444;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .score {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #444;
+            padding: 10px 20px; border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="turn">X's Turn</div>
+        <div class="board">
+            <div class="cell" onclick="makeMove(this, 0, 0)"></div>
+            <div class="cell" onclick="makeMove(this, 0, 1)"></div>
+            <div class="cell" onclick="makeMove(this, 0, 2)"></div>
+            <div class="cell" onclick="makeMove(this, 1, 0)"></div>
+            <div class="cell" onclick="makeMove(this, 1, 1)"></div>
+            <div class="cell" onclick="makeMove(this, 1, 2)"></div>
+            <div class="cell" onclick="makeMove(this, 2, 0)"></div>
+            <div class="cell" onclick="makeMove(this, 2, 1)"></div>
+            <div class="cell" onclick="makeMove(this, 2, 2)"></div>
+        </div>
+        <div class="score">
+            <div class="score-item">
+                <div>X (You):</div>
+                <div id="x-score">0</div>
+            </div>
+            <div class="score-item">
+                <div>Ties:</div>
+                <div id="ties-score">0</div>
+            </div>
+            <div class="score-item">
+                <div>O (CPU):</div>
+                <div id="o-score">0</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let board = [['', '', ''], ['', '', ''], ['', '', '']];
+        let currentPlayer = 'X';
+        let xWins = 0;
+        let oWins = 0;
+        let ties = 0;
+
+        function makeMove(cell, row, col) {
+            if (board[row][col] !== '') return;
+
+            board[row][col] = currentPlayer;
+            cell.classList.add(currentPlayer.toLowerCase());
+            cell.innerText = currentPlayer;
+
+            if (checkWin()) {
+                alert(currentPlayer + ' wins!');
+                updateScore();
+                resetGame();
+            } else if (isBoardFull()) {
+                alert('It\'s a tie!');
+                ties++;
+                document.getElementById('ties-score').innerText = ties;
+                resetGame();
+            } else {
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                document.querySelector('.turn').innerText = currentPlayer + '\'s Turn';
+            }
+        }
+
+        function checkWin() {
+            // Check rows, columns, and diagonals for a win
+            for (let i = 0; i < 3; i++) {
+                if (board[i][0] && board[i][0] === board[i][1] && board[i][1] === board[i][2]) return true;
+                if (board[0][i] && board[0][i] === board[1][i] && board[1][i] === board[2][i]) return true;
+            }
+            if (board[0][0] && board[0][0] === board[1][1] && board[1][1] === board[2][2]) return true;
+            if (board[0][2] && board[0][2] === board[1][1] && board[1][1] === board[2][0]) return true;
+            return false;
+        }
+
+        function isBoardFull() {
+            return board.flat().every(cell => cell !== '');
+        }
+
+        function updateScore() {
+            if (currentPlayer === 'X') {
+                xWins++;
+                document.getElementById('x-score').innerText = xWins;
+            } else {
+                oWins++;
+                document.getElementById('o-score').innerText = oWins;
+            }
+        }
+
+        function resetGame() {
+            board = [['', '', ''], ['', '', ''], ['', '', '']];
+            currentPlayer = 'X';
+            document.querySelector('.turn').innerText = currentPlayer + '\'s Turn';
+            document.querySelectorAll('.cell').forEach(cell => {
+                cell.innerText = '';
+                cell.classList.remove('x', 'o');
+            });
+        }
+    </script>
+</body>
+</html>

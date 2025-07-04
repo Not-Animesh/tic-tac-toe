@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tic Tac Toe</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="circle"><div class="dot"></div></div>
+
+    <div class="game-container">
+        <div class="main-card">
+            <h1 class="heading">Tic Tac Toe</h1>
+
+            <div class="turn">X's Turn</div>
+
+            <div class="grid">
+                <div class="box" onclick="makeMove(this, 0, 0)"></div>
+                <div class="box" onclick="makeMove(this, 0, 1)"></div>
+                <div class="box" onclick="makeMove(this, 0, 2)"></div>
+                <div class="box" onclick="makeMove(this, 1, 0)"></div>
+                <div class="box" onclick="makeMove(this, 1, 1)"></div>
+                <div class="box" onclick="makeMove(this, 1, 2)"></div>
+                <div class="box" onclick="makeMove(this, 2, 0)"></div>
+                <div class="box" onclick="makeMove(this, 2, 1)"></div>
+                <div class="box" onclick="makeMove(this, 2, 2)"></div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="panel-section scoreboard-container">
+                <h2>Scoreboard</h2>
+                <div class="score">
+                    <div class="score-item">
+                        <div>X:</div>
+                        <div id="x-score">0</div>
+                    </div>
+                    <div class="score-item">
+                        <div>Ties:</div>
+                        <div id="ties-score">0</div>
+                    </div>
+                    <div class="score-item">
+                        <div>O:</div>
+                        <div id="o-score">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-section game-controls">
+                <h2>Game Controls</h2>
+                <button id="reset-board-btn" class="control-btn">Reset Board</button>
+                <button id="start-new-game-btn" class="control-btn">Start New Game</button>
+            </div>
+
+            <div class="panel-section settings-container">
+                <h2>Settings</h2>
+                <button id="reset-score-btn" class="control-btn">Reset Score</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
